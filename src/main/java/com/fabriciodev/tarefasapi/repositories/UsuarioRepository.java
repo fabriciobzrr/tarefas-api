@@ -12,7 +12,7 @@ import com.fabriciodev.tarefasapi.projections.UsuarioDetailsProjection;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-    @Query(nativeQuery = true, value = "SELECT tb_usuario.email AS username, tb_usuario.password, tb_role.id AS roleld, tb_role.authority\n" +
+    @Query(nativeQuery = true, value = "SELECT tb_usuario.email AS username, tb_usuario.password, tb_role.id AS roleId, tb_role.authority\n" +
         "FROM tb_usuario\n" +
         "INNER JOIN tb_usuario_role ON tb_usuario.id = tb_usuario_role.usuario_id\n" +
         "INNER JOIN tb_role ON tb_role.id = tb_usuario_role.role_id\n" +
