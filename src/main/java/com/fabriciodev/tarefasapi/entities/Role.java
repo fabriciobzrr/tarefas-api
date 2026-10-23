@@ -12,7 +12,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,8 +20,7 @@ import lombok.Setter;
 @Table(name = "tb_role")
 @Getter 
 @Setter 
-@NoArgsConstructor 
-@AllArgsConstructor 
+@NoArgsConstructor  
 public class Role implements GrantedAuthority {
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +29,7 @@ public class Role implements GrantedAuthority {
 
     @ManyToMany(mappedBy = "roles")
     @Setter(AccessLevel.NONE)
-    private Set<Usuario> usuarios = new HashSet<>();
+    private Set<User> users = new HashSet<>();
 
     public Role(Long id, String authority) {
         this.id = id;

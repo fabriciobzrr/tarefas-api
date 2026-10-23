@@ -92,6 +92,22 @@
 
 	<build>
 		<plugins>
+			<!-- Plugin do compilador Maven configurado para reconhecer anotações do Lombok -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<annotationProcessorPaths> <!-- Mapeia processadores de código durante a compilação -->
+						<path>
+							<groupId>org.projectlombok</groupId> <!-- Grupo da biblioteca do Lombok -->
+							<artifactId>lombok</artifactId> <!-- Artefato do Lombok -->
+							<version>${lombok.version}</version> <!-- Pega a versão compatível gerenciada pelo Spring Boot -->
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+			
+			<!-- Plugin do Spring Boot para empacotamento -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

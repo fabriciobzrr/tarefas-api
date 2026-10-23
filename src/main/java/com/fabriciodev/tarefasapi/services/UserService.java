@@ -8,17 +8,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.fabriciodev.tarefasapi.entities.Role;
-import com.fabriciodev.tarefasapi.entities.Usuario;
+import com.fabriciodev.tarefasapi.entities.User;
 import com.fabriciodev.tarefasapi.projections.UsuarioDetailsProjection;
-import com.fabriciodev.tarefasapi.repositories.UsuarioRepository;
+import com.fabriciodev.tarefasapi.repositories.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor 
-public class UsuarioService implements UserDetailsService {
+public class UserService implements UserDetailsService {
 
-	private final UsuarioRepository repository;
+	private final UserRepository repository;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -28,7 +28,7 @@ public class UsuarioService implements UserDetailsService {
 			throw new UsernameNotFoundException("Usuário não encontrado!");
 		}
 
-		Usuario usuario = new Usuario();
+		User usuario = new User();
 		usuario.setEmail(username);
 		usuario.setPassword(result.get(0).getPassword());
 

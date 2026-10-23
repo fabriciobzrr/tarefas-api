@@ -1,6 +1,6 @@
 package com.fabriciodev.tarefasapi.dto;
 
-import com.fabriciodev.tarefasapi.entities.Tarefa;
+import com.fabriciodev.tarefasapi.entities.Task;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
@@ -10,24 +10,24 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class TarefaDTO {
+public class TaskDto {
     private Long id;
 
     @NotBlank(message = "Campo requerido")
     @Size(min = 4, max = 80, message = "Título deve ter entre 4 e 80 caracteres")
-    private String titulo;
+    private String title;
 
     @NotBlank(message = "Campo requerido")
     @Size(min = 10, message = "Descrição deve ter no mínimo 10 caracteres")
     @Column(columnDefinition = "TEXT")
-    private String descricao;
+    private String description;
 
-    private Boolean concluida;
+    private Boolean finished;
 
-    public TarefaDTO(Tarefa tarefa) {
-        id = tarefa.getId();
-        titulo = tarefa.getTitulo();
-        descricao = tarefa.getDescricao();
-        concluida = tarefa.getConcluida();
+    public TaskDto(Task task) {
+        id = task.getId();
+        title = task.getTitle();
+        description = task.getDescription();
+        finished = task.getFinished();
     }
 }

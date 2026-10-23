@@ -21,35 +21,42 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity 
-@Table(name = "tb_usuario")
+@Table(name = "tb_user")
 @Getter 
 @Setter
-@NoArgsConstructor 
-@AllArgsConstructor 
-public class Usuario implements UserDetails {
+@NoArgsConstructor
+@EqualsAndHashCode(of = "id")
+public class User implements UserDetails {
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nome;
+    private String name;
 
     @Column(unique = true)
     private String email;
     private String password;
 
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(mappedBy = "user")
     @Setter(AccessLevel.NONE)
-    private List<Tarefa> tarefas;
+    private List<Task> tasks;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "tb_usuario_role", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = "tb_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     @Setter(AccessLevel.NONE)
     private Set<Role> roles = new HashSet<>();
+
+    public User(Long id, String name, String email, String password) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -88,5 +95,14 @@ public class Usuario implements UserDetails {
 
     public void addRole(Role role) {
         roles.add(role);
+    }
+
+    public boolean hasRole(String roleName) {
+        for (Role role : roles) {
+            if (role.getAuthority().equals(roleName)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

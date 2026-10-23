@@ -6,9 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fabriciodev.tarefasapi.dto.TarefaDTO;
-import com.fabriciodev.tarefasapi.entities.Tarefa;
-import com.fabriciodev.tarefasapi.repositories.TarefaRepository;
+import com.fabriciodev.tarefasapi.dto.TaskDto;
+import com.fabriciodev.tarefasapi.entities.Task;
+import com.fabriciodev.tarefasapi.repositories.TaskRepository;
 import com.fabriciodev.tarefasapi.services.exceptions.DatabaseException;
 import com.fabriciodev.tarefasapi.services.exceptions.ResourceNotFoundException;
 
@@ -17,37 +17,37 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor 
-public class TarefaService {
+public class TaskService {
     
-    private final TarefaRepository repository;
+    private final TaskRepository repository;
 
     @Transactional(readOnly = true)
-    public Page<TarefaDTO> searchByTitulo(String titulo, Pageable pageable) {
-        Page<Tarefa> resultado = repository.searchByTitulo(titulo, pageable);
-        return resultado.map(x -> new TarefaDTO(x));
+    public Page<TaskDto> searchByTitle(String title, Pageable pageable) {
+        Page<Task> result = repository.searchByTitle(title, pageable);
+        return result.map(x -> new TaskDto(x));
     }
 
     @Transactional(readOnly = true)
-    public TarefaDTO findById(Long id) {
-        Tarefa resultado = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Tarefa não encontrada! Id: " + id + "."));
-        return new TarefaDTO(resultado);
+    public TaskDto findById(Long id) {
+        Task result = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Tarefa não encontrada! Id: " + id + "."));
+        return new TaskDto(result);
     }
 
     @Transactional
-    public TarefaDTO insert(TarefaDTO dto) {
-        Tarefa entity = new Tarefa();
+    public TaskDto insert(TaskDto dto) {
+        Task entity = new Task();
         updateData(dto, entity);
         entity = repository.save(entity);
-        return new TarefaDTO(entity);
+        return new TaskDto(entity);
     }
     
     @Transactional
-    public TarefaDTO update(Long id, TarefaDTO dto) {
+    public TaskDto update(Long id, TaskDto dto) {
         try {
-            Tarefa entity = repository.getReferenceById(id);
+            Task entity = repository.getReferenceById(id);
             updateData(dto, entity);
             repository.save(entity);
-            return new TarefaDTO(entity);
+            return new TaskDto(entity);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Tarefa não localizada! Id: " + id + ".");
         }
@@ -65,14 +65,14 @@ public class TarefaService {
         }
     }
 
-    private void updateData(TarefaDTO dto, Tarefa entity) {
-        entity.setTitulo(dto.getTitulo());
-        entity.setDescricao(dto.getDescricao());
+    private void updateData(TaskDto dto, Task entity) {
+        entity.setTitle(dto.getTitle());
+        entity.setDescription(dto.getDescription());
 
-        if (dto.getConcluida() != null) {
-            entity.setConcluida(dto.getConcluida());
+        if (dto.getFinished() != null) {
+            entity.setFinished(dto.getFinished());
         } else {
-            entity.setConcluida(false);
+            entity.setFinished(false);
         }
     }
 }

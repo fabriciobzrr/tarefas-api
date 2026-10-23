@@ -30,7 +30,7 @@ A **Tarefas API** é uma aplicação backend RESTful desenvolvida em **Java 26**
 - **Servidor OAuth2 com Custom Password Grant:** Como o Spring Authorization Server não fornece por padrão a concessão via *password*, foi implementada uma estrutura customizada (composta por `Converter`, `Provider`, `Token` e `CustomUserAuthorities`) para habilitar o fluxo clássico de autenticação por usuário e senha.
 - **Assinatura RSA de JWT:** O par de chaves RSA de 2048 bits é gerado em memória na inicialização, gravando as *claims* de `authorities` e `username` diretamente no payload do token.
 - **Tratamento Global de Exceções:** Manipulador centralizado com `@ControllerAdvice` (`ResourceExceptionHandler`), padronizando erros de validação (`422 Unprocessable Entity`), recurso não encontrado (`404 Not Found`) e erros de banco (`400 Bad Request`).
-- **Consultas Otimizadas:** Uso de JPQL com `LOWER(...) LIKE` para busca insensível a maiúsculas/minúsculas no `TarefaRepository`, além de consultas nativas otimizadas via *Projections* no `UsuarioRepository`.
+- **Consultas Otimizadas:** Uso de JPQL com `LOWER(...) LIKE` para busca insensível a maiúsculas/minúsculas no `TaskRepository`, além de consultas nativas otimizadas via *Projections* no `UserRepository`.
 - **Configuração Externa Resiliente:** Suporte ao carregamento de arquivo `.env` com valores *fallback* nativos em todos os parâmetros principais.
 
 ---

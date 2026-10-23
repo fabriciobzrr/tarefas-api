@@ -16,24 +16,23 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "tb_tarefas")
+@Table(name = "tb_task")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Tarefa {
+public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String titulo;
-    private String descricao;
+    private String title;
+    private String description;
 
     @ColumnDefault("false")
-    private Boolean concluida = false;
+    private Boolean finished = false;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private Usuario usuario;
+    private User user;
 }
