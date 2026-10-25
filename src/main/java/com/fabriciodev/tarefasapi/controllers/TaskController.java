@@ -35,7 +35,7 @@ public class TaskController {
         return ResponseEntity.ok().body(dto);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_GERENCIA', 'ROLE_COORDENACAO')")
     @GetMapping("/{id}")
     public ResponseEntity<TaskDto> findById(@PathVariable Long id) {
         TaskDto dto = service.findById(id);
