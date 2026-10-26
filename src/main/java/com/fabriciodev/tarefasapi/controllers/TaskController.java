@@ -1,6 +1,8 @@
 package com.fabriciodev.tarefasapi.controllers;
 
 import java.net.URI;
+
+import com.fabriciodev.tarefasapi.dto.TaskMinDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +32,8 @@ public class TaskController {
     private final TaskService service;
 
     @GetMapping
-    public ResponseEntity<Page<TaskDto>> searchByTitle(@RequestParam(value = "titulo", defaultValue = "")String title, Pageable pageable) {
-        Page<TaskDto> dto = service.searchByTitle(title, pageable);
+    public ResponseEntity<Page<TaskMinDto>> searchByTitle(@RequestParam(value = "titulo", defaultValue = "")String title, Pageable pageable) {
+        Page<TaskMinDto> dto = service.searchByTitle(title, pageable);
         return ResponseEntity.ok().body(dto);
     }
 

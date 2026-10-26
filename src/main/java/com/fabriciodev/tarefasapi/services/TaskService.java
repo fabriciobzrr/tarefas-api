@@ -1,5 +1,8 @@
 package com.fabriciodev.tarefasapi.services;
 
+import com.fabriciodev.tarefasapi.dto.TaskMinDto;
+import com.fabriciodev.tarefasapi.entities.Category;
+import com.fabriciodev.tarefasapi.repositories.CategoryRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,11 +23,12 @@ import lombok.RequiredArgsConstructor;
 public class TaskService {
     
     private final TaskRepository repository;
+    private final CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
-    public Page<TaskDto> searchByTitle(String title, Pageable pageable) {
+    public Page<TaskMinDto> searchByTitle(String title, Pageable pageable) {
         Page<Task> result = repository.searchByTitle(title, pageable);
-        return result.map(x -> new TaskDto(x));
+        return result.map(x -> new TaskMinDto(x));
     }
 
     @Transactional(readOnly = true)
@@ -68,6 +72,13 @@ public class TaskService {
     private void updateData(TaskDto dto, Task entity) {
         entity.setTitle(dto.getTitle());
         entity.setDescription(dto.getDescription());
+
+        if (dto.getCategory() != null && dto.getCategory().getId() != null) {
+            Category category = categoryRepository.getReferenceById(dto.getCategory().getId());
+            entity.setCategory(category);
+        } else {
+            entity.setCategory(null);
+        }
 
         if (dto.getFinished() != null) {
             entity.setFinished(dto.getFinished());

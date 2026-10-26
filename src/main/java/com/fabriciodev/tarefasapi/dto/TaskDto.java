@@ -1,8 +1,6 @@
 package com.fabriciodev.tarefasapi.dto;
 
 import com.fabriciodev.tarefasapi.entities.Task;
-
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -19,15 +17,16 @@ public class TaskDto {
 
     @NotBlank(message = "Campo requerido")
     @Size(min = 10, message = "Descrição deve ter no mínimo 10 caracteres")
-    @Column(columnDefinition = "TEXT")
     private String description;
 
     private Boolean finished;
+    private CategoryDto category;
 
-    public TaskDto(Task task) {
-        id = task.getId();
-        title = task.getTitle();
-        description = task.getDescription();
-        finished = task.getFinished();
+    public TaskDto(Task entity) {
+        id = entity.getId();
+        title = entity.getTitle();
+        description = entity.getDescription();
+        finished = entity.getFinished();
+        category = entity.getCategory() != null ? new CategoryDto(entity.getCategory()) : null;
     }
 }

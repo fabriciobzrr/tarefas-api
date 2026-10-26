@@ -1,9 +1,6 @@
 package com.fabriciodev.tarefasapi.entities;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
@@ -44,7 +41,7 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     @Setter(AccessLevel.NONE)
-    private List<Task> tasks;
+    private List<Task> tasks = new ArrayList<>();;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "tb_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
